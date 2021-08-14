@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class NoDoItem extends StatelessWidget {
- late String _itemName;
- late String _dateCreated;
- late int _id;
+  String? _itemName;
+  String? _dateCreated;
+  int? _id;
  NoDoItem(this._itemName, this._dateCreated);
 NoDoItem.map(dynamic obj){
   this._itemName =obj["itemName"];
   this._dateCreated =obj["dateCreated"];
   this._id =obj["id"];
 }
-String get itemName => _itemName;
-String get dateCreated => _dateCreated;
-int get id => _id;
+String get itemName => _itemName!;
+String get dateCreated => _dateCreated!;
+int get id => _id!;
 Map<String, dynamic> toMap() {
   var map = new Map<String, dynamic>();
   map["itemName"] = _itemName;

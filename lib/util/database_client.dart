@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:todoapp/model/nodo_item.dart';
 import 'package:path/path.dart';
@@ -14,7 +14,7 @@ class DatabaseHelper {
   final String columnDateCreated = "dateCreated";
    static Database? _db;
 
-  
+    
   Future<Database?> get db async {
     if (_db != null){
       return _db;
@@ -28,6 +28,7 @@ initDb()async {
   Directory documentDirectory = await getApplicationDocumentsDirectory();
   String path = join(documentDirectory.path,"notodo_db.db");
   var ourDb = await openDatabase(path, version:1,onCreate: _oncreate);
+  return ourDb; 
 }
 void _oncreate(Database db,int version) async {
   await db.execute("CREATE TABLE $tableName(id  INTEGER PRIMARY KEY,$columnItemName TEXT, $columnDateCreated)");
@@ -40,9 +41,13 @@ Future<int> saveItem(NoDoItem item) async {
   return res;
 }
 Future<List> getItems() async {
-  var dbClinet = await db;
-  var result = await dbClinet!.rawQuery("SELECT * FROM $tableName ORDER BY $columnItemName ASC");
-    return result.toList();
+  var dbClient = await db;
+  var result = await dbClient?.rawQuery("SELECT * FROM $tableName ORDER BY $columnItemName ASC");
+  if (result != null) {
+  return result.toList();
+  }
+  throw Exception("failed");
+    
 }
 Future getCount() async {
   var  dbClient = await db;
